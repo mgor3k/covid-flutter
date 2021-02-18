@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/country.dart';
 
-class CountryService {
+class CountryNetworkService {
   static Future<List<Country>> getCountries() async {
     final url = 'https://api.covid19api.com/countries';
 

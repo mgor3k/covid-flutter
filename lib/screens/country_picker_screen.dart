@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/country.dart';
 import '../styles.dart';
@@ -7,7 +8,7 @@ import '../styles.dart';
 import '../widgets/searchbar.dart';
 import '../widgets/country_cell.dart';
 
-import '../services/country_service.dart';
+import '../providers/country_picker_provider.dart';
 
 class CountryPickerScreen extends StatefulWidget {
   @override
@@ -38,12 +39,37 @@ class _CountryPickerScreenState extends State<CountryPickerScreen> {
 
   void _fetchCountries() {
     _isLoading = true;
-    CountryService.getCountries().then((items) {
+    final provider = Provider.of<CountryPickerProvider>(context, listen: false);
+    provider.fetchCountries().catchError((error) {
+      return showError(error).then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }).then((items) {
       setState(() {
         _items = items;
         _isLoading = false;
       });
     });
+  }
+
+  Future<void> showError(Exception error) async {
+    await showCupertinoDialog(
+      context: context,
+      builder: (ctx) => CupertinoAlertDialog(
+        title: Text('Error'),
+        content: Text(error.toString()),
+        actions: [
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
   }
 
   void _onTextChanged() {
@@ -76,6 +102,8 @@ class _CountryPickerScreenState extends State<CountryPickerScreen> {
 
   void _onTapped(Country country) {
     print('tapped ${country.country}');
+    final provider = Provider.of<CountryPickerProvider>(context, listen: false);
+    provider.pickCountry(country);
   }
 
   @override
@@ -105,7 +133,8 @@ class _CountryPickerScreenState extends State<CountryPickerScreen> {
                         child: ListView.builder(
                           keyboardDismissBehavior:
                               ScrollViewKeyboardDismissBehavior.onDrag,
-                          itemCount: _currentItems.length,
+                          itemCount:
+                              _currentItems == null ? 0 : _currentItems.length,
                           itemBuilder: (ctx, index) => CountryCell(
                             title: _currentItems[index].country,
                             isFirst: index == 0,
