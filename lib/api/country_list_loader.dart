@@ -4,9 +4,13 @@ import 'package:http/http.dart' as http;
 
 import '../models/country.dart';
 
-class CountryNetworkService {
+class CountryListLoader {
   static Future<List<Country>> getCountries() async {
-    final url = 'https://api.covid19api.com/countries';
+    // TODO: This url doesnt work anymore?
+    // final url = 'https://api.covid19api.com/countries';
+
+    final url =
+        'https://flutter-eede2-default-rtdb.firebaseio.com/countries.json';
 
     try {
       final response = await http.get(url);

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../api/country_list_network_service.dart';
+import '../api/country_list_loader.dart';
 
 import '../models/country.dart';
 
@@ -12,7 +12,7 @@ class CountryPickerProvider with ChangeNotifier {
   }
 
   Future<List<Country>> fetchCountries() async {
-    return CountryListNetworkService.getCountries();
+    return CountryListLoader.getCountries();
   }
 
   void pickCountry(Country country) {
