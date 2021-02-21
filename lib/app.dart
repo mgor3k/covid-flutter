@@ -21,9 +21,11 @@ class CovidApp extends StatelessWidget {
         child: Consumer<CountryPickerProvider>(
           builder: (ctx, provider, child) => CupertinoApp(
             theme: const CupertinoThemeData(brightness: Brightness.light),
-            home: provider.pickedCountry == null
+            home:
+                /*provider.pickedCountry == null
                 ? CountryPickerScreen()
-                : HomeScreen(),
+                :*/
+                HomeScreen(),
           ),
         ));
   }
