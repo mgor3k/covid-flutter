@@ -41,10 +41,8 @@ class _List extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: countries.length,
-            itemBuilder: (ctx, index) => HomeRankItem(countries[index]),
+              child: Column(
+            children: countries.map((item) => HomeRankItem(item)).toList(),
           )),
         ],
       ),

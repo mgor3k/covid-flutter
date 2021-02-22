@@ -22,7 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
           statusBarBrightness: Brightness.dark,
         ),
         child: CupertinoPageScaffold(
-          child: Column(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
             children: [
               Container(
                 height: 580,
@@ -40,8 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              Expanded(
+              SizedBox(
                 child: HomeRankList(),
+                height: 650,
               ),
             ],
           ),
