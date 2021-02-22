@@ -1,43 +1,57 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:intl/intl.dart';
 
 import '../models/country_stats.dart';
+import '../providers/country_stats_provider.dart';
 
 class HomeStats extends StatelessWidget {
-  final CountryStats stats = CountryStats(
-    active: 123456789,
-    confirmed: 12,
-    deaths: 2,
-    recovered: 50,
-  );
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<CountryStatsProvider>(context);
+    return FutureBuilder(
+      future: provider.getStats(),
+      builder: (ctx, snapshot) => IgnorePointer(
+        child: snapshot.connectionState == ConnectionState.waiting
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : _Grid(snapshot.data),
+      ),
+    );
+  }
+}
+
+class _Grid extends StatelessWidget {
+  final CountryStats stats;
+
+  _Grid(this.stats);
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: GridView(
-        padding: EdgeInsets.symmetric(horizontal: 32),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 2.3,
-          crossAxisSpacing: 24,
-          mainAxisSpacing: 24,
-        ),
-        children: [
-          HomeStatsCell('Confirmed', stats.confirmed, Colors.red),
-          HomeStatsCell('Active', stats.active, Colors.blue),
-          HomeStatsCell('Recovered', stats.recovered, Colors.green),
-          HomeStatsCell('Deaths', stats.deaths, Colors.grey),
-        ],
+    return GridView(
+      padding: EdgeInsets.symmetric(horizontal: 32),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 3 / 2.3,
+        crossAxisSpacing: 24,
+        mainAxisSpacing: 24,
       ),
+      children: [
+        HomeStatsCell('Confirmed', stats.confirmed, Colors.red),
+        HomeStatsCell('Active', stats.active, Colors.blue),
+        HomeStatsCell('Recovered', stats.recovered, Colors.green),
+        HomeStatsCell('Deaths', stats.deaths, Colors.grey),
+      ],
     );
   }
 }
 
 class HomeStatsCell extends StatelessWidget {
   final String title;
-  final double value;
+  final int value;
   final Color color;
 
   HomeStatsCell(

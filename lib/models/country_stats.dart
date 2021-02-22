@@ -1,8 +1,8 @@
 class CountryStats {
-  double confirmed;
-  double active;
-  double recovered;
-  double deaths;
+  int confirmed;
+  int active;
+  int recovered;
+  int deaths;
 
   CountryStats({
     this.confirmed,

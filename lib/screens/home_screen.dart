@@ -16,8 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final pickedCountry =
-        Provider.of<CountryPickerProvider>(context).pickedCountry;
     return LayoutBuilder(
       builder: (ctx, constraints) => AnnotatedRegion(
         value: SystemUiOverlayStyle(

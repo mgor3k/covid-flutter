@@ -6,11 +6,11 @@ import '../models/country.dart';
 
 class CountryListLoader {
   static Future<List<Country>> getCountries() async {
-    // TODO: This url doesnt work anymore?
-    // final url = 'https://api.covid19api.com/countries';
+    final url = 'https://api.covid19api.com/countries';
 
-    final url =
-        'https://flutter-eede2-default-rtdb.firebaseio.com/countries.json';
+    // In case the url above doesn't work
+    // final url =
+    // 'https://flutter-eede2-default-rtdb.firebaseio.com/countries.json';
 
     try {
       final response = await http.get(url);

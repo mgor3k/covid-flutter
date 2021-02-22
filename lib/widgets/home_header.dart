@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../images.dart';
+
+import '../providers/country_picker_provider.dart';
 
 class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final selectedCountry =
+        Provider.of<CountryPickerProvider>(context).pickedCountry;
     return Stack(children: [
       Images.banner,
       SafeArea(
@@ -37,7 +42,7 @@ class HomeHeader extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Poland',
+                          selectedCountry.country,
                           style: TextStyle(color: Colors.white, fontSize: 32),
                         ),
                         Icon(
