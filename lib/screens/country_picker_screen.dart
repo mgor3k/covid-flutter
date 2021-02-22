@@ -141,6 +141,9 @@ class _CountryPickerScreenState extends State<CountryPickerScreen> {
                             isLast: index + 1 == _currentItems.length,
                             onTapped: () {
                               _onTapped(_currentItems[index]);
+                              if (Navigator.of(context).canPop()) {
+                                Navigator.of(context).pop();
+                              }
                             },
                           ),
                           padding: EdgeInsets.symmetric(

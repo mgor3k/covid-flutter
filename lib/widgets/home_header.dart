@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import '../images.dart';
 
 import '../providers/country_picker_provider.dart';
+import '../screens/country_picker_screen.dart';
 
 class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final selectedCountry =
-        Provider.of<CountryPickerProvider>(context).pickedCountry;
+    final provider = Provider.of<CountryPickerProvider>(context);
     return Stack(children: [
       Images.banner,
       SafeArea(
@@ -30,7 +30,7 @@ class HomeHeader extends StatelessWidget {
                       color: Colors.white,
                       size: 32,
                     ),
-                    onPressed: () {},
+                    onPressed: provider.refresh,
                   ),
                 ],
               ),
@@ -42,7 +42,7 @@ class HomeHeader extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          selectedCountry.country,
+                          provider.pickedCountry.country,
                           style: TextStyle(color: Colors.white, fontSize: 32),
                         ),
                         Icon(
@@ -51,7 +51,12 @@ class HomeHeader extends StatelessWidget {
                         ),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(CupertinoPageRoute(
+                        fullscreenDialog: true,
+                        builder: (ctx) => CountryPickerScreen(),
+                      ));
+                    },
                   ),
                   Spacer(),
                 ],

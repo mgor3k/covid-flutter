@@ -19,4 +19,8 @@ class CountryPickerProvider with ChangeNotifier {
     _pickedCountry = country;
     notifyListeners();
   }
+
+  void refresh() {
+    pickCountry(pickedCountry);
+  }
 }
