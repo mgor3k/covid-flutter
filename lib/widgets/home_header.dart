@@ -1,16 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:timer_builder/timer_builder.dart';
 
 import '../images.dart';
 
 import '../providers/country_picker_provider.dart';
 import '../screens/country_picker_screen.dart';
 
-class HomeHeader extends StatelessWidget {
+class HomeHeader extends StatefulWidget {
+  @override
+  _HomeHeaderState createState() => _HomeHeaderState();
+}
+
+class _HomeHeaderState extends State<HomeHeader> {
+  DateTime lastUpdated;
+
+  String get dateString {
+    if (lastUpdated == null) {
+      return '';
+    }
+    return timeago.format(lastUpdated);
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CountryPickerProvider>(context);
+    lastUpdated = provider.lastUpdate;
     return Stack(children: [
       Images.banner,
       SafeArea(
@@ -61,9 +78,12 @@ class HomeHeader extends StatelessWidget {
                   Spacer(),
                 ],
               ),
-              Text(
-                'Last updated: 5 days ago',
-                style: TextStyle(color: Colors.grey),
+              TimerBuilder.periodic(
+                Duration(seconds: 1),
+                builder: (ctx) => Text(
+                  'Last updated: $dateString',
+                  style: TextStyle(color: Colors.grey),
+                ),
               )
             ],
           ),
