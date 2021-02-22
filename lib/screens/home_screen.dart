@@ -6,6 +6,7 @@ import '../providers/country_picker_provider.dart';
 
 import '../widgets/home_header.dart';
 import '../widgets/home_stats.dart';
+import '../widgets/home_rank_list.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -41,10 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              Text('haha'),
-              // HomeHeader(),
-              // Expanded(child: HomeStats()),
-              // Text(pickedCountry.country),
+              Expanded(
+                child: HomeRankList(),
+              ),
             ],
           ),
         ),
