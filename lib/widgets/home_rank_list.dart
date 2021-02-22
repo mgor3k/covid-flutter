@@ -1,13 +1,33 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../models/country_summary.dart';
+import '../providers/country_summary_provider.dart';
 
 class HomeRankList extends StatelessWidget {
-  final List<CountrySummary> countries = [
-    CountrySummary('Poland', 100, 200),
-    CountrySummary('Poland', 100003210, 200),
-  ];
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<CountrySummaryProvider>(context);
+    return FutureBuilder(
+      future: provider.getStats(),
+      builder: (ctx, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? Center(child: CircularProgressIndicator())
+              : snapshot.data == null
+                  ? Center(
+                      child: Text('Error'),
+                    )
+                  : _List(snapshot.data),
+    );
+  }
+}
+
+class _List extends StatelessWidget {
+  final List<CountrySummary> countries;
+
+  _List(this.countries);
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +37,12 @@ class HomeRankList extends StatelessWidget {
           Text(
             'Top 10 countries (by cases)',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 12,
             ),
           ),
           Expanded(
               child: ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: countries.length,
             itemBuilder: (ctx, index) => HomeRankItem(countries[index]),
           )),
@@ -51,13 +72,22 @@ class HomeRankItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       child: Row(
         children: [
-          Text(country.country),
+          FittedBox(
+            child: Text(
+              country.country,
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          SizedBox(width: 16),
           Spacer(),
-          Text(_totalConfirmed),
+          Text(
+            _totalConfirmed,
+            style: TextStyle(fontSize: 16),
+          ),
           SizedBox(width: 8),
           Text('☠️'),
           SizedBox(width: 8),
-          Text(_totalDeaths),
+          Text(_totalDeaths, style: TextStyle(fontSize: 16)),
         ],
       ),
     );

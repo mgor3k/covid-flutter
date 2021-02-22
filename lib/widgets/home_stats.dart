@@ -18,7 +18,9 @@ class HomeStats extends StatelessWidget {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : _Grid(snapshot.data),
+            : snapshot.data == null
+                ? _Grid(CountryStats())
+                : _Grid(snapshot.data),
       ),
     );
   }

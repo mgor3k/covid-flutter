@@ -7,6 +7,7 @@ import './screens/home_screen.dart';
 
 import './providers/country_picker_provider.dart';
 import './providers/country_stats_provider.dart';
+import './providers/country_summary_provider.dart';
 
 class CovidApp extends StatelessWidget {
   @override
@@ -23,6 +24,9 @@ class CovidApp extends StatelessWidget {
             update: (ctx, pickerProvider, prev) =>
                 CountryStatsProvider(pickerProvider.pickedCountry),
             create: (ctx) => CountryStatsProvider(null),
+          ),
+          ChangeNotifierProvider.value(
+            value: CountrySummaryProvider(),
           ),
         ],
         child: Consumer<CountryPickerProvider>(

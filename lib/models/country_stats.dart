@@ -5,9 +5,9 @@ class CountryStats {
   int deaths;
 
   CountryStats({
-    this.confirmed,
-    this.active,
-    this.recovered,
-    this.deaths,
+    this.confirmed = 0,
+    this.active = 0,
+    this.recovered = 0,
+    this.deaths = 0,
   });
 }
